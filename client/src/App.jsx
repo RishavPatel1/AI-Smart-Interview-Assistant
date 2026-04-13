@@ -1,45 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import Auth from './pages/Auth'
-import { useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { setUserData } from './redux/userSlice'
+
+import Home from './pages/Home'
+import Auth from './pages/Auth'
 import InterviewPage from './pages/InterviewPage'
 import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
+import { setUserData } from './redux/userSlice'
 
-export const ServerUrl  = "https://ai-smart-interview-assistant.onrender.com"
+axios.defaults.withCredentials = true;
+
+export const ServerUrl = "https://ai-smart-interview-assistant.onrender.com"
 
 function App() {
-
   const dispatch = useDispatch()
-  useEffect(()=>{
+
+  useEffect(() => {
     const getUser = async () => {
       try {
-        const result = await axios.get(ServerUrl + "/api/user/current-user", {withCredentials:true})
+        const result = await axios.get(ServerUrl + "/api/user/current-user")
         dispatch(setUserData(result.data))
       } catch (error) {
         console.log(error)
         dispatch(setUserData(null))
       }
     }
-    getUser()
 
-  },[dispatch])
+    getUser()
+  }, [dispatch])
+
   return (
     <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/auth' element={<Auth/>}/>
-      <Route path='/interview' element={<InterviewPage/>}/>
-      <Route path='/history' element={<InterviewHistory/>}/>
-      <Route path='/pricing' element={<Pricing/>}/>
-      <Route path='/report/:id' element={<InterviewReport/>}/>
-
-
-
+      <Route path='/' element={<Home />} />
+      <Route path='/auth' element={<Auth />} />
+      <Route path='/interview' element={<InterviewPage />} />
+      <Route path='/history' element={<InterviewHistory />} />
+      <Route path='/pricing' element={<Pricing />} />
+      <Route path='/report/:id' element={<InterviewReport />} />
     </Routes>
   )
 }
