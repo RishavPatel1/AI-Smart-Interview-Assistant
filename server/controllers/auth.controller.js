@@ -17,6 +17,7 @@ export const googleAuth = async (req,res) => {
             httpOnly:true,
             secure:true,
             sameSite:"none",
+            domain: "https://ai-smart-interview-assistant-1.onrender.com",
             maxAge:7 * 24 * 60 * 60 * 1000
         })
 
